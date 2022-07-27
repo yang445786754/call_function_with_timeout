@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="call_function_with_timeout", 
-    version="1.0.2",
+    version="1.1.0",
     author="Tony_9410",
     author_email="tony_9410@foxmail.com",
     description="Python Call function with timeouts",
