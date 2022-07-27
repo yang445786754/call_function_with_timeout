@@ -30,8 +30,7 @@ def _call_with_timeout(func=None, __timeout=None, *args, **kwds):
 
 
 class SetTimeout(object):
-    """ a decorator
-        __call__()
+    """ __call__()
         @return (task.done, task.timeout, task.error, task.results)
         @return (是否执行完成, 是否超时, 是否异常, 任务执行结果)
     """
@@ -43,3 +42,20 @@ class SetTimeout(object):
     def __call__(self, *args: Any, **kwds: Any) -> Any:
         return _call_with_timeout(
             self.func, self.timeout, *args, **kwds)
+
+
+class SetTimeoutDecorator(object):
+    """ 
+        @return (task.done, task.timeout, task.error, task.results)
+        @return (是否执行完成, 是否超时, 是否异常, 任务执行结果)
+    """
+    def __init__(self, timeout=None) -> None:
+        self.timeout = timeout
+
+    def __call__(self, func) -> Any:
+        self.func = func
+        assert isinstance(func, Callable), '您需要装饰一个可以执行的方法'
+        def wrapper( *args: Any, **kwds: Any):
+            return _call_with_timeout(
+                self.func, self.timeout, *args, **kwds)
+        return wrapper
